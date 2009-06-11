@@ -1,13 +1,36 @@
 SimpleSanitizerHtml
 ===================
 
-Introduction goes here.
+SimpleSanitizerHtml is a small plugin for Rails for escape html into the model after save records.
 
 
 Example
 =======
 
-Example goes here.
+For example you have the following model
+
+# ruby script/generate model Post title:string copy:text
+
+class Post
+ simple_sanitizer_html
+ 
+end
+
+so, if you add a post like that
+
+$ ruby script/console 
+Loading development environment (Rails 2.3.2)
+p >> p = Post.new
+=> #<Post id: nil, title: nil, copy: nil, created_at: nil, updated_at: nil>
+>> p.title = "<script>alert('hi tuquito')</script>"
+=> "<script>alert('hi tuquito')</script>"
+>> p.save
+=> true
+>> p.title
+=> "&lt;script&gt;alert(&#39;hi tuquito&#39;)&lt;/script&gt;"
+>> 
 
 
-Copyright (c) 2009 [chebyte], released under the MIT license
+this plugin can be useful for prevent XSS Injection or styles attacks
+
+Copyright (c) 2009 [chebyte - http://www.chebyte.com.ar], released under the MIT license
